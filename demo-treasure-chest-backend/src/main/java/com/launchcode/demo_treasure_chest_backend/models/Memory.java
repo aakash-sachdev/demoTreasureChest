@@ -14,13 +14,15 @@ public class Memory {
 
     private String description;
     private String title;
+    private String imageUrl;
 
     public Memory() {
     }
 
-    public Memory(String description, String title) {
+    public Memory(String description, String title, String imageUrl) {
         this.description = description;
         this.title = title;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -45,6 +47,14 @@ public class Memory {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }
