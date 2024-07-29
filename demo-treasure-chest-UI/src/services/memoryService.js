@@ -12,10 +12,12 @@ export const fetchMemories = async () => {
   }
 };
 
-export const addMemory = async (description, title) => {
+export const addMemory = async (formData) => {
   try {
-    const response = await axios.post(`${BASEAPIURL}/api/memories/new`, null, {
-      params: { description, title },
+    const response = await axios.post(`${BASEAPIURL}/api/memories/new`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response.data;
   } catch (error) {

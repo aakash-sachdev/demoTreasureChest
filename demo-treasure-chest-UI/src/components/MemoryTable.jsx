@@ -1,21 +1,14 @@
 import React from "react";
-import { MemoryRowItem } from "./MemoryRowItem";
+import { MemoryCard } from "./MemoryCard";
 
 export const MemoryTable = ({ memories, deleteMemory }) => {
   return (
-    <table className="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Description</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div className="container">
+      <div className="row">
         {memories.map((memory) => (
-          <MemoryRowItem key={memory.id} memory={memory} deleteMemory={deleteMemory} />
+          <MemoryCard key={memory.id} memory={memory} deleteMemory={deleteMemory} />
         ))}
-      </tbody>
-    </table>
+      </div>
+    </div>
   );
 };

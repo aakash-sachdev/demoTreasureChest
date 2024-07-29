@@ -1,10 +1,14 @@
 import "./App.css";
 import { MemoryPage } from "./components/MemoryPage";
+import Quote from "./components/Quote";
 
 
 function App() {
 
-    return <MemoryPage />;
+    return  <>
+              <Quote/>
+              <MemoryPage />
+            </>
     
 }
 

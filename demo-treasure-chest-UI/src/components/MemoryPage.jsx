@@ -15,8 +15,8 @@ export const MemoryPage = () => {
       });
   }, []);
 
-  const handleAddMemory = (description, title) => {
-    addMemory(description, title)
+  const handleAddMemory = (formData) => {
+    addMemory(formData)
       .then((newMemory) => {
         setMemories([...memories, newMemory]);
       })
