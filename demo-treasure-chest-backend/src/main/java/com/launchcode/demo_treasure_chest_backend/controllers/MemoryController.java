@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/memories")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173/")
 public class MemoryController {
 
         private static final String UPLOAD_DIR ="src/main/resources/static/uploads/";
