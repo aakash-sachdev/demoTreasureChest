@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MemoryPage } from './components/MemoryPage';
 import { MemoryDetail } from './components/MemoryDetail';
 import Quote from './components/Quote';
-import Registration from './components/Registration';
-import Login from './components/Login';
+import Register from './routes/Register';
+import Login from './routes/Login';
 import { fetchMemories } from './services/memoryService';
-import Navigation from './components/Navigation';
+import Layout from './components/Layout';
+import { AuthProvider } from './context/AuthContext';
+import './App.css';
 
-function App() {
+const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [memories, setMemories] = useState([]);
 
@@ -30,17 +32,23 @@ function App() {
     console.log("User logged out");
   };
 
+  const router = createBrowserRouter([
+    {
+      element: <Layout isLoggedIn={isLoggedIn} handleLogout={handleLogout} />,
+      children: [
+        { path: "/", element: <MemoryPage memories={memories} setMemories={setMemories} /> },
+        { path: "/memory/:memoryId", element: <><Quote /><MemoryDetail memories={memories} /></> },
+        { path: "/login", element: <Login onLogin={handleLogin} /> },
+        { path: "/register", element: <Register/> },
+      ],
+    },
+  ]);
+
   return (
-    <Router>
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-        <Routes>
-          <Route path="/" element={<><MemoryPage memories={memories} setMemories={setMemories} /></>} />
-          <Route path="/memory/:memoryId" element={<><Quote /><MemoryDetail memories={memories} /></>} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/registration" element={<Registration onLogin={handleLogin} />} />
-        </Routes>
-    </Router>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
-}
+};
 
 export default App;

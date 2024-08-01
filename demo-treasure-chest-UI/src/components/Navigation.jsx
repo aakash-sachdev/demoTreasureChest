@@ -22,7 +22,7 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                                 <Link className="nav-link active" to="/login">Login</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" to="/registration">Registration</Link>
+                                <Link className="nav-link active" to="/register">Register</Link>
                             </li>
                         </>
                     )}
