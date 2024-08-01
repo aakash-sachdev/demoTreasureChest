@@ -1,76 +1,88 @@
 package com.launchcode.demo_treasure_chest_backend.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Objects;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotNull
-    @Column(name = "username", unique=true)
+    private String name;
+
+    @NotNull
+    private String email;
+
+    @NotNull
     private String username;
 
     @NotNull
-    @Column(name = "pw_hash")
-    private String pwHash;
+    private String passwordHash;
 
-    @NotNull
-    @Email
-    @Column(name = "email", unique=true)
-    private String email;
+    private String role;
 
-    public User() {
+    public User() {}
+
+    public User(String name, String email, String username, String password, String role) {
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.passwordHash = encoder.encode(password);
+        this.role = role;
     }
 
-    // Constructors
-
-    public User(@NotNull String username, @NotNull String password, @NotNull String email) {
+    // Overloaded constructor to directly set hashed password
+    public User(String name, String email, String username, String passwordHash, String role, boolean isHashed) {
+        this.name = name;
+        this.email = email;
         this.username = username;
-        this.pwHash = password;
+        this.passwordHash = isHashed ? passwordHash : encoder.encode(passwordHash);
+        this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    // Getters and Setters
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
-
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPwHash(String pwHash) {
-        this.pwHash = pwHash;
+    public String getRole() {
+        return role;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, passwordHash);
     }
 }
 

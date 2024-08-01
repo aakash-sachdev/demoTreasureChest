@@ -1,6 +1,7 @@
-package com.launchcode.demo_treasure_chest_backend.data;
-import com.codersquiz.quiz_api.controllers.AuthenticationController;
-import com.codersquiz.quiz_api.models.User;
+package com.launchcode.demo_treasure_chest_backend;
+
+import com.launchcode.demo_treasure_chest_backend.controllers.AuthenticationController;
+import com.launchcode.demo_treasure_chest_backend.models.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +20,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     AuthenticationController authenticationController;
 
     // Whitelist
-    private static final List<String> whitelist = Arrays.asList("/", "/api", "/register", "/login", "/users/register", "/users/login", "/send-email");
+    private static final List<String> whitelist = Arrays.asList("/", "/api", "/register", "/login", "/users/register", "/users/login");
     // NIL: come back and see if what this means
     // - so these are backend routes
     // - and it should be based on my controller @requestmapping path. so if it has users then include like /users/register and so on?
