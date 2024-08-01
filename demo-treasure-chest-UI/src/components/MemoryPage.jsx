@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { fetchMemories, addMemory, deleteMemory } from "../services/memoryService"; 
 import { MemoryTable } from "./MemoryTable";
 import { NewMemoryForm } from "./NewMemoryForm";
 
-export const MemoryPage = () => {
+export const MemoryPage = ({ memories, setMemories }) => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [memories, setMemories] = useState([]);
-
-  useEffect(() => {
-    fetchMemories()
-      .then(setMemories)
-      .catch((error) => {
-        console.error("There was an error fetching the memories!", error);
-      });
-  }, []);
 
   const handleAddMemory = (formData) => {
     addMemory(formData)
