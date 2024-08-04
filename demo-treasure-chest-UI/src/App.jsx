@@ -11,6 +11,7 @@ import Navigation from './components/Navigation';
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [memories, setMemories] = useState([]);
+  const [filteredMemories, setFilteredMemories] = useState([]);
 
   useEffect(() => {
     fetchMemories()
@@ -30,9 +31,17 @@ function App() {
     console.log("User logged out");
   };
 
+  const handleSearch = (query) => {
+    setMemories((prevMemories) =>
+      prevMemories.filter((memory) =>
+        memory.title.toLowerCase().includes(query.toLowerCase())
+      )
+    );
+  };
+
   return (
     <Router>
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={handleSearch}/>
         <Routes>
           <Route path="/" element={<><MemoryPage memories={memories} setMemories={setMemories} /></>} />
           <Route path="/memory/:memoryId" element={<><Quote /><MemoryDetail memories={memories} /></>} />

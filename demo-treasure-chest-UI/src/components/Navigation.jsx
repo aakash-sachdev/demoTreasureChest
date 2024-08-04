@@ -1,7 +1,18 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navigation = ({ isLoggedIn, handleLogout }) => {
+const Navigation = ({ isLoggedIn, handleLogout, handleSearch }) => {
+    
+    const [searchQuery, setSearchQuery] = useState("");
+    
+    const navigate = useNavigate();
+
+    const onSearchSubmit = (e) => {
+        e.preventDefault();
+        handleSearch(searchQuery);
+        navigate("/");
+    };
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <a className="navbar-brand" href="/">Treasured Chest</a>
@@ -27,6 +38,19 @@ const Navigation = ({ isLoggedIn, handleLogout }) => {
                         </>
                     )}
                 </ul>
+                <form className="d-flex" onSubmit={onSearchSubmit}>
+                 <input
+                    type="text"
+                    className="form-control me-2"
+                    placeholder="Search memories..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                 />
+                 
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+                        Search
+                    </button>
+                </form>
             </div>
         </nav>
     );

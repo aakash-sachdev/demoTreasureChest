@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/memories")
@@ -48,5 +49,17 @@ public class MemoryController {
 
             Memory newMemory = new Memory(description, title, "/uploads/" + fileName);
             return memoryRepository.save(newMemory);
+        }
+
+        @GetMapping("/api/memories")
+        public List<Memory> getMemories(@RequestParam(value = "query", required = false) String query) {
+            List<Memory> memories = memoryRepository.findAll();
+            if (query != null && !query.isEmpty()) {
+                memories = memories.stream()
+                        .filter(memory -> memory.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                                memory.getDescription().toLowerCase().contains(query.toLowerCase()))
+                        .collect(Collectors.toList());
+            }
+            return memories;
         }
 }
