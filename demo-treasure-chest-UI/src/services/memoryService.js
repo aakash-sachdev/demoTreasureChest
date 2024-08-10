@@ -1,62 +1,54 @@
-import axios from "axios";
+import axios from 'axios';
 
-const BASEAPIURL = "http://localhost:8080";
+const BASE_API_URL = 'http://localhost:8080/api/memories';
 
-export const fetchMemories = async () => {
-  try {
-    const response = await axios.get(`${BASEAPIURL}/api/memories`);
-    return response.data;
-  } catch (error) {
-    console.error("There was an error fetching the memories!", error);
-    throw error;
-  }
-};
-
-// Fetch all users
-export const fetchUsers = async () => {
-  const response = await axios.get(`${API_BASE_URL}/users`);
-  return response.data;
-};
-
-// Fetch all children
-export const fetchChildren = async () => {
-  const response = await axios.get(`${API_BASE_URL}/children`);
-  return response.data;
+const fetchMemories = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/api/memories/', {
+            withCredentials: true,
+        });
+        // Handle response...
+    } catch (error) {
+        console.error("There was an error fetching the memories!", error);
+    }
 };
 
 export const addMemory = async (formData) => {
   try {
-    const response = await axios.post(`${BASEAPIURL}/api/memories/new`, formData, {
+    const response = await axios.post(`${BASE_API_URL}/new`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
+      withCredentials: true, // Ensure credentials (cookies) are sent
     });
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the Memory!", error);
+    console.error('There was an error creating the memory!', error);
     throw error;
   }
 };
 
 export const deleteMemory = async (memoryId) => {
   try {
-    await axios.post(`${BASEAPIURL}/api/memories/delete`, null, {
+    await axios.post(`${BASE_API_URL}/delete`, null, {
       params: { memoryId },
+      withCredentials: true, // Ensure credentials (cookies) are sent
     });
   } catch (error) {
-    console.error("There was an error deleting the Memory!", error);
+    console.error('There was an error deleting the memory!', error);
     throw error;
   }
-}
+};
 
-  export const updateMemoryDescription = async (id, description) => {
-    try {
-      const response = await axios.put(`${BASEAPIURL}/api/memories/update/${id}`, null, {
-        params: { description },
-      });
-      return response.data;
-    } catch (error) {
-      console.error("There was an error updating the memory description!", error);
-      throw error;
-    }
- };
+export const updateMemoryDescription = async (id, description) => {
+  try {
+    const response = await axios.put(`${BASE_API_URL}/update/${id}`, null, {
+      params: { description },
+      withCredentials: true, // Ensure credentials (cookies) are sent
+    });
+    return response.data;
+  } catch (error) {
+    console.error('There was an error updating the memory description!', error);
+    throw error;
+  }
+};

@@ -1,33 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Link,
+} from 'react-router-dom';
 import { MemoryPage } from './components/MemoryPage';
 import { MemoryDetail } from './components/MemoryDetail';
 import Quote from './components/Quote';
-import UserList from './components/UserList'; // Import the UserList component
-import ChildList from './components/ChildList'; // Import the ChildList component
-import { fetchMemories } from './services/memoryService';
-import { fetchUsers } from './services/userService';
-import { fetchChildren } from './services/childService';
 import Navigation from './components/Navigation';
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Logout from "./components/Logout";
+import { fetchMemories } from './services/memoryService';
+import './App.css';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   const [memories, setMemories] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [children, setChildren] = useState([]);
-  const [filteredMemories, setFilteredMemories] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [memoriesData, usersData, childrenData] = await Promise.all([
-          fetchMemories(),
-          fetchUsers(),
-          fetchChildren()
-        ]);
+        const memoriesData = await fetchMemories();
         setMemories(memoriesData);
-        setUsers(usersData);
-        setChildren(childrenData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -35,16 +32,6 @@ function App() {
     
     fetchData();
   }, []);
-
-  const handleLogin = (username) => {
-    setIsLoggedIn(true);
-    console.log("User logged in:", username);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    console.log("User logged out");
-  };
 
   const handleSearch = (query) => {
     setMemories((prevMemories) =>
@@ -56,24 +43,46 @@ function App() {
 
   return (
     <Router>
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} handleSearch={handleSearch} />
-      <Routes>
-        <Route path="/" element={<MemoryPage memories={memories} setMemories={setMemories} />} />
+      <Navigation isLoggedIn={authenticated} handleLogout={() => setAuthenticated(false)} handleSearch={handleSearch} />
+      <nav>
+        {!authenticated ? (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/">Memories</Link>
+            <Link to="/logout">Logout</Link>
+          </>
+        )}
+      </nav>
+      <div className="App">
+        <header className="App-header">
+          <Routes>
+            {/* Public Routes */}
+            <Route
+              path="/login"
+              element={<Login setAuthenticated={setAuthenticated} />}
+            />
+            <Route path="/register" element={<Register />} />
 
-        <Route path="/users" element={<UserList users={users} />} />
-        <Route path="/user/:userId/children" element={<ChildList children={children} />} />
-        <Route path="/memory/:memoryId" element={<><Quote /><MemoryDetail memories={memories} users={users} children={children} /></>} />
-        {/* <Route path="/login" element={<Login onLogin={handleLogin} />} />  */}
-        {/* { <Route path="/registration" element={<Registration onLogin={handleLogin} />} /> */}
-      </Routes>
-      {/* <Routes>
-        {/* User List Route */}
-        {/* <Route path="/" element={<UserList users={users} />} />
-        {/* Child List Route */}
-        {/* <Route path="/user/:userId/children" element={<ChildList children={children} />} /> */}
-        {/* Memory List Route */}
-        {/* <Route path="/user/:userId/child/:childId/memories" element={<MemoryList memories={memories} />} /> */}
-      {/* </Routes> */}
+            {/* Private Routes */}
+            {authenticated ? (
+              <>
+                <Route path="/" element={<MemoryPage memories={memories} setMemories={setMemories} />} />
+                <Route path="/memory/:memoryId" element={<><Quote /><MemoryDetail memories={memories} /></>} />
+                <Route
+                  path="/logout"
+                  element={<Logout setAuthenticated={setAuthenticated} />}
+                />
+              </>
+            ) : (
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            )}
+          </Routes>
+        </header>
+      </div>
     </Router>
   );
 }
