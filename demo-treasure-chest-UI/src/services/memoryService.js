@@ -12,6 +12,18 @@ export const fetchMemories = async () => {
   }
 };
 
+// Fetch all users
+export const fetchUsers = async () => {
+  const response = await axios.get(`${API_BASE_URL}/users`);
+  return response.data;
+};
+
+// Fetch all children
+export const fetchChildren = async () => {
+  const response = await axios.get(`${API_BASE_URL}/children`);
+  return response.data;
+};
+
 export const addMemory = async (formData) => {
   try {
     const response = await axios.post(`${BASEAPIURL}/api/memories/new`, formData, {
@@ -35,4 +47,16 @@ export const deleteMemory = async (memoryId) => {
     console.error("There was an error deleting the Memory!", error);
     throw error;
   }
-};
+}
+
+  export const updateMemoryDescription = async (id, description) => {
+    try {
+      const response = await axios.put(`${BASEAPIURL}/api/memories/update/${id}`, null, {
+        params: { description },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("There was an error updating the memory description!", error);
+      throw error;
+    }
+ };

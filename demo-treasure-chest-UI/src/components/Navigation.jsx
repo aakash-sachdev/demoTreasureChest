@@ -21,6 +21,12 @@ const Navigation = ({ isLoggedIn, handleLogout, handleSearch }) => {
                     <li className="nav-item">
                         <Link className="nav-link active" to="/">Home</Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link active" to="/users">Users</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link active" to="/user/:userId/children">Children</Link>
+                    </li>
                     {isLoggedIn ? (
                         <li className="nav-item">
                             <button onClick={handleLogout} className="btn btn-logout">
