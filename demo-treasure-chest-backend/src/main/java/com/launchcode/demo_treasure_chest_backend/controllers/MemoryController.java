@@ -1,7 +1,7 @@
 package com.launchcode.demo_treasure_chest_backend.controllers;
 
-import com.launchcode.demo_treasure_chest_backend.data.MemoryRepository;
 import com.launchcode.demo_treasure_chest_backend.models.Memory;
+import com.launchcode.demo_treasure_chest_backend.repositories.MemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +21,7 @@ public class MemoryController {
         private static final String UPLOAD_DIR ="src/main/resources/static/uploads/";
 
         @Autowired
-        private MemoryRepository memoryRepository;
+        MemoryRepository memoryRepository;
 
         @GetMapping
         public List<Memory> getAllMemories(){
@@ -38,6 +38,8 @@ public class MemoryController {
                 @RequestParam String description,
                 @RequestParam String title,
                 @RequestParam("file") MultipartFile file) throws IOException {
+
+            System.out.println("createMemory method was called!");
 
             String fileName = file.getOriginalFilename();
             Path filePath = Paths.get(UPLOAD_DIR, fileName);
@@ -62,4 +64,15 @@ public class MemoryController {
             }
             return memories;
         }
+
+//    @PutMapping("/update/{id}")
+//    public Memory updateMemoryDescription(
+//            @PathVariable Long id,
+//            @RequestParam String description) {
+//
+//        Memory memory = memoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Memory not found"));
+//        memory.setDescription(description);
+//        return memoryRepository.save(memory);
+//    }
+
 }

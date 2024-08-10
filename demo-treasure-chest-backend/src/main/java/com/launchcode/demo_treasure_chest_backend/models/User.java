@@ -1,76 +1,49 @@
 package com.launchcode.demo_treasure_chest_backend.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @NotNull
-    @Column(name = "username", unique=true)
-    private String username;
+    private String name; // Changed from 'username' to 'name'
 
-    @NotNull
-    @Column(name = "pw_hash")
-    private String pwHash;
-
-    @NotNull
-    @Email
-    @Column(name = "email", unique=true)
-    private String email;
-
-    public User() {
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Child> children;
 
     // Constructors
+    public User() {}
 
-    public User(@NotNull String username, @NotNull String password, @NotNull String email) {
-        this.username = username;
-        this.pwHash = password;
-        this.email = email;
+    public User(String name) {
+        this.name = name;
     }
 
     // Getters and Setters
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public String getEmail() { return email; }
-
-    public void setEmail(String email) { this.email = email; }
-
-    public String getUsername() {
-        return username;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() { // Changed from 'getUsername' to 'getName'
+        return name;
     }
 
-    public void setPwHash(String pwHash) {
-        this.pwHash = pwHash;
+    public void setName(String name) { // Changed from 'setUsername' to 'setName'
+        this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id;
+    public Set<Child> getChildren() {
+        return children;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public void setChildren(Set<Child> children) {
+        this.children = children;
     }
 }
-

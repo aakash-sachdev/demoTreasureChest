@@ -1,9 +1,6 @@
 package com.launchcode.demo_treasure_chest_backend.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Memory {
@@ -16,8 +13,12 @@ public class Memory {
     private String title;
     private String imageUrl;
 
-    public Memory() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "child_id")
+    private Child child;
+
+    // Constructors
+    public Memory() {}
 
     public Memory(String description, String title, String imageUrl) {
         this.description = description;
@@ -25,6 +26,7 @@ public class Memory {
         this.imageUrl = imageUrl;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -57,4 +59,11 @@ public class Memory {
         this.imageUrl = imageUrl;
     }
 
+    public Child getChild() {
+        return child;
+    }
+
+    public void setChild(Child child) {
+        this.child = child;
+    }
 }
