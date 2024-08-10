@@ -14,16 +14,17 @@ public class Memory {
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "child_id")
-    private Child child;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Constructors
     public Memory() {}
 
-    public Memory(String description, String title, String imageUrl) {
+    public Memory(String description, String title, String imageUrl, User user) {
         this.description = description;
         this.title = title;
         this.imageUrl = imageUrl;
+        this.user = user;
     }
 
     // Getters and Setters
@@ -59,11 +60,12 @@ public class Memory {
         this.imageUrl = imageUrl;
     }
 
-    public Child getChild() {
-        return child;
+
+    public User getUser() {
+        return user;
     }
 
-    public void setChild(Child child) {
-        this.child = child;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,49 +1,105 @@
 package com.launchcode.demo_treasure_chest_backend.models;
 
-import jakarta.persistence.*;
-import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-public class User {
+public class User{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private int id;
+    private String username;
 
-    private String name; // Changed from 'username' to 'name'
+    private String pwHash;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Child> children;
+    private String firstName;
 
-    // Constructors
+    private String lastName;
+
+    private String email;
+
+    private String phoneNumber;
+
+    private String address;
+
+    private String role;
+
+
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     public User() {}
 
-    public User(String name) {
-        this.name = name;
+    public User(String username, String password, String firstName, String lastName, String email, String phoneNumber, String address, String role) {
+        this.username = username;
+        this.pwHash = encoder.encode(password);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.role = role;
     }
 
-    // Getters and Setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    public String getUsername() {
+        return username;
     }
 
-    public String getName() { // Changed from 'getUsername' to 'getName'
-        return name;
+    public boolean isMatchingPassword(String password) {
+        return encoder.matches(password, pwHash);
     }
 
-    public void setName(String name) { // Changed from 'setUsername' to 'setName'
-        this.name = name;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public Set<Child> getChildren() {
-        return children;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setChildren(Set<Child> children) {
-        this.children = children;
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
