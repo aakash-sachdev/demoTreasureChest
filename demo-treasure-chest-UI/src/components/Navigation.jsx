@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = ({ isLoggedIn, handleLogout, handleSearch }) => {
-    
     const [searchQuery, setSearchQuery] = useState("");
-    
     const navigate = useNavigate();
 
     const onSearchSubmit = (e) => {
@@ -20,12 +18,6 @@ const Navigation = ({ isLoggedIn, handleLogout, handleSearch }) => {
                 <ul className="navbar-nav">
                     <li className="nav-item">
                         <Link className="nav-link active" to="/">Home</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/users">Users</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link active" to="/user/:userId/children">Children</Link>
                     </li>
                     {isLoggedIn ? (
                         <li className="nav-item">
@@ -45,14 +37,13 @@ const Navigation = ({ isLoggedIn, handleLogout, handleSearch }) => {
                     )}
                 </ul>
                 <form className="d-flex" onSubmit={onSearchSubmit}>
-                 <input
-                    type="text"
-                    className="form-control me-2"
-                    placeholder="Search memories..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                 />
-                 
+                    <input
+                        type="text"
+                        className="form-control me-2"
+                        placeholder="Search memories..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                     <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
                         Search
                     </button>

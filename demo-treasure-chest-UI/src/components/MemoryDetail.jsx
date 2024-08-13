@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-export const MemoryDetail = ({ memories, users, children }) => {
+export const MemoryDetail = ({ memories }) => {
   const { memoryId } = useParams();
   const memory = memories.find((m) => m.id === parseInt(memoryId));
 
