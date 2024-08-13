@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/memories")
@@ -98,26 +99,19 @@ public class MemoryController {
             }
         }
 
-//        @GetMapping("/search")
-//        public List<Memory> getMemories(@RequestParam(value = "query", required = false) String query) {
-//            List<Memory> memories = memoryRepository.findAll();
-//            if (query != null && !query.isEmpty()) {
-//                memories = memories.stream()
-//                        .filter(memory -> memory.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-//                                memory.getDescription().toLowerCase().contains(query.toLowerCase()))
-//                        .collect(Collectors.toList());
-//            }
-//            return memories;
-//        }
+    @GetMapping("/api/memories")
+    public List<Memory> getMemories(@RequestParam(value = "query", required = false) String query) {
+        Iterable<Memory> iterableMemories = memoryRepository.findAll();
+        List<Memory> memories = StreamSupport.stream(iterableMemories.spliterator(), false)
+                .collect(Collectors.toList());
+        if (query != null && !query.isEmpty()) {
+            memories = memories.stream()
+                    .filter(memory -> memory.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                            memory.getDescription().toLowerCase().contains(query.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+        return memories;
+    }
 
-//    @PutMapping("/update/{id}")
-//    public Memory updateMemoryDescription(
-//            @PathVariable Long id,
-//            @RequestParam String description) {
-//
-//        Memory memory = memoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Memory not found"));
-//        memory.setDescription(description);
-//        return memoryRepository.save(memory);
-//    }
 
 }
