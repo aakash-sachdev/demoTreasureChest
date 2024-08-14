@@ -21,3 +21,35 @@ nav ul li a {
 nav ul li a:hover {
   text-decoration: underline;
 }
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .navbar-dark {
+  background-color: #333;
+  color: #ffffff;
+}
+
+body.dark-mode .btn-logout {
+  background-color: #555;
+  color: #ffffff;
+}
+
+body.dark-mode .form-control {
+  background-color: #333;
+  color: #ffffff;
+  border-color: #555;
+}
+
+body.dark-mode .btn-outline-light {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+body.dark-mode .btn-outline-light:hover {
+  background-color: #ffffff;
+  color: #121212;
+}

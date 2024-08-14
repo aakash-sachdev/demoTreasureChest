@@ -1,3 +1,4 @@
+/* General Styles */
 .App {
   display: flex;
   flex-direction: column;
@@ -7,9 +8,21 @@
   margin: 0;
 }
 
+/* Dark Mode Specific Styles */
+body.dark-mode .App {
+  background-color: #121212;
+  color: #ffffff;
+}
+
 form {
   width: 300px;
   text-align: center;
+}
+
+body.dark-mode form {
+  background-color: #333;
+  color: #ffffff;
+  border-color: #555;
 }
 
 img {
@@ -17,11 +30,20 @@ img {
   height: auto;
 }
 
-display-container, form-container {
-border: 5px solid;
-margin: auto;
-width: 50%;
-padding: 10px;
+/* Container Styling */
+.display-container, .form-container {
+  border: 5px solid;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Dark Mode Container Styling */
+body.dark-mode .display-container, 
+body.dark-mode .form-container {
+  border-color: #555;
+  background-color: #333;
+  color: #ffffff;
 }
 
 .card {
@@ -29,6 +51,12 @@ padding: 10px;
   border-radius: 0.5rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+}
+
+body.dark-mode .card {
+  border-color: #444;
+  background-color: #222;
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
 .card:hover {
@@ -47,6 +75,7 @@ padding: 10px;
   margin-top: 20px;
 }
 
+/* Form Styling */
 form {
   max-width: 500px;
   margin: 20px auto;
@@ -55,3 +84,36 @@ form {
   border-radius: 5px;
   background-color: #f9f9f9;
 }
+
+/* Dark Mode Form Styling */
+body.dark-mode form {
+  background-color: #333;
+  color: #ffffff;
+  border-color: #555;
+}
+
+/* Button Styling */
+button {
+  background-color: #007bff; /* Default blue color */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Dark Mode Button Styling */
+body.dark-mode button {
+  background-color: #1a73e8; /* Slightly lighter blue for contrast */
+  color: #ffffff;
+}
+
+body.dark-mode button:hover {
+  background-color: #0047ab; /* Darker blue on hover for dark mode */
+}
+
